@@ -1,4 +1,11 @@
-# My First Python Project
+# File Parser Demo
 
-This is my first project in Python, created in PyCharm.  
-For now it's just a test, but I'll be building it into a business-oriented tool. 🚀
+This project is a **lightweight file parser** built to demonstrate my skills in Python development.  
+It will be capable of parsing `.log` and `.txt` files (public demo scope) and presenting structured output.  
+
+## License
+
+This project is licensed under a **Non-Commercial Demo License**.  
+It is free for personal and educational use, but **commercial use is strictly prohibited** without prior written permission.  
+
+See the [LICENSE](./LICENSE) file for full details.  
