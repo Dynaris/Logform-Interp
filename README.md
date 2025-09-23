@@ -1,7 +1,8 @@
 # File Parser Demo
 
 This project is a **lightweight file parser** built to demonstrate my skills in Python development.  
-It will be capable of parsing `.log` and `.txt` files (public demo scope) and presenting structured output.  
+It will be capable of parsing `.log` and `.txt` files (public demo scope) and presenting structured output.
+Issues and pull requests may not be reviewed promptly.
 
 ## License
 
