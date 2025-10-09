@@ -17,10 +17,10 @@ root.configure(background="lightgray")
 def getfile_path():
     path = filedialog.askopenfilename(title="Select a file to upload", filetypes=[("Text Files", ".txt"),("Log Files", ".log"),("DMP Files", ".dmp"),("NFO Files", ".nfo")])
     if not path:
-        errors_box.insert("end", "Error: No file selected.\n")
+        errors_box.insert("end", "Error: No file selected. \n")
     else:
         #Debug - prints user selected path.
-        errors_box.insert("end", f"Path {path} was selected.\n")
+        errors_box.insert("end", f"Path {path} was selected. \n")
         parser_engine.validate_input_path(path)
         return
 
@@ -30,7 +30,7 @@ ttk.Button.pack(attach_button, side="bottom", pady="100")
 
 #Error feedback for user
 errors_box = Text(root, height= 10, width=50)
-errors_box.pack(side="top", pady="100", anchor="center")
+errors_box.pack(side="top", pady="100", anchor="center", expand=True, fill="both")
 errors_box.see("end")
 
 #Tkinter display start
