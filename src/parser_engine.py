@@ -1,27 +1,27 @@
 import os
-import gui
 import re
+from src import common
 
 #engine core mechanics (validate file selection and return feedback to user based on selection)
 def validate_input_path(path):
     allowed_extensions = {".txt", ".log", ".dmp", ".nfo"}  # List of accepted file extensions
 
     if not os.path.exists(path): #Check if a path exists
-        return gui.errors_box.insert("end", "Error: File does not exist, or was not selected. \n")
+        return common.log_message("Error: File does not exist, or was not selected. ")
     elif not os.path.isfile(path): #Check if path is a file
-        return gui.errors_box.insert("end", "Error: Selected item is not expected file type. Ensure only eligible files (i.e. '.txt' '.log' '.dmp' '.nfo' ) are selected. Note that DEMO version only encompasses '.txt' '.log'. \n")
+        return common.log_message("Error: Selected item is not expected file type. Ensure only eligible files (i.e. '.txt' '.log' '.dmp' '.nfo' ) are selected. Note that DEMO version only encompasses '.txt' '.log'. \n")
     else:
         filename, extension = os.path.splitext(path) #If a valid file, split the text into filename, and extension.
         extension = extension.lower().strip() #Convert all casing to lower and remove white spacing
 
         #Check if extension is valid and parse, if it is
         if extension in allowed_extensions:
-            gui.errors_box.insert("end", f"Extension '{extension}' found. File is valid and will now be parsed. \n")
+            common.log_message(f"Extension '{extension}' found. File is valid and will now be parsed. ")
             print("About to call parse.") #Debug
             parsed = parse_file(path, extension) # Run parsing, since all checks came back valid.
             return parsed
         else:
-            return gui.errors_box.insert("end", "Error: File extension from selected file is not valid. \n")
+            return common.log_message("Error: File extension from selected file is not valid. ")
 
 # engine core mechanics (parsing files after validation)
 def parse_file(path, extension):
@@ -42,7 +42,7 @@ def parse_file(path, extension):
                     lines = text.readlines()
                     text_content = "".join(lines)
                     if decoded_text_validation(text_content):
-                        #gui.errors_box.insert("end", f"The following lines were found: {lines}.")  # Needs to be moved to a new window
+                        #common.log_message(f"The following lines were found: {lines}.")  # Needs to be moved to a new window
                         print("Keyword hunt is running...") #Debug
                         return keyword_id(text_content)
                     else:
@@ -54,8 +54,8 @@ def parse_file(path, extension):
             continue
 
     #If no encoding works from the list
-    gui.errors_box.insert("end", "Unable to parse file. \n")
-    gui.errors_box.insert("end", f"Please report the issue via Github at {Github_Issues}\n. DISCLAIMER: I may not be able to provide the expected response rate, or return with a solution. I ask for your understanding as this is an experimental project to showcase my personal skills.")
+    common.log_message("Unable to parse file. ")
+    common.log_message(f"Please report the issue via Github at {Github_Issues}\n. DISCLAIMER: I may not be able to provide the expected response rate, or return with a solution. I ask for your understanding as this is an experimental project to showcase my personal skills.")
     return "Unable to parse file"
 
     #.NFO (convert to text) - This removes any possible existent incompatibilities due to OS versions - NOT TO BE INCLUDED IN DEMO
@@ -85,15 +85,15 @@ def decoded_text_validation(text_content): #check for a ratio of printable chara
     line_break_count = text_content.count("\n")
 
     #check character limit
-    gui.errors_box.insert("end", "Checking file character limit... \n")
+    common.log_message("Checking file character limit... ")
     total_characters = len(text_content)
     print(f"The total character count found is: {total_characters}.") #Debug
     if total_characters <= 50:
-        gui.errors_box.insert("end", "File is not valid. \n")
+        common.log_message("File is not valid. ")
         return False
 
     #check for printable characters (readability) (i.e. "NULL", "\x00", etc)
-    gui.errors_box.insert("end", "Checking file character validity... \n")
+    common.log_message("Checking file character validity... ")
     for char in text_content:
         if not (char.isprintable() or char in special_chars):
             bad_char_count +=1
@@ -101,14 +101,14 @@ def decoded_text_validation(text_content): #check for a ratio of printable chara
     char_ratio = bad_char_count / len(text_content)
     print(f"The percentage of bad characters is: {char_ratio}. ") #Debug
     if char_ratio >= 0.3:
-        gui.errors_box.insert("end", "File is not valid. \n ")
+        common.log_message("File is not valid.  ")
         return False
 
     #check for line breaks
-    gui.errors_box.insert("end", "Checking line break count... \n")
+    common.log_message("Checking line break count... ")
     print(f"The number of line breaks found, is: {line_break_count}.")
     if line_break_count <= 10:
-        gui.errors_box.insert("end", "File is not valid. \n")
+        common.log_message("File is not valid. ")
         return False
 
     #if all requirements are valid, return True
@@ -184,5 +184,28 @@ def keyword_id(text_content):
         if entries:
             filtered_output[cat] = entries
 
-    gui.errors_box.insert("end", f"The following errors were found: {filtered_output}")
-    print(filtered_output)
+    common.log_message(f"The following errors were found: {filtered_output}")
+    print(filtered_output) #Debug
+
+    context = llm_context_builder(filtered_output)
+    print(context)
+
+    #Check if User has Python and OpenAI dependencies locally installed
+    #Create function here
+
+def llm_context_builder(filtered_output):
+
+    #List created to convert dictionary into strings, for LLM parsing.
+    keyword_list = []
+
+    #LLM string setup
+    for category, contents  in filtered_output.items():
+        common.log_message("Some potential errors were found. Their validity is now being analyzed...")
+        keyword_list.append(f"\n=== CATEGORY: {category} ===")
+        for entry in contents:
+            keyword_list.append(f"Line {entry['line_number']}: {entry['contents']}")
+
+    #Final input for the LLM
+    keyword_list.append("\nPlease analyze and summarize these results.")
+
+    return "\n".join(keyword_list)
