@@ -1,0 +1,82 @@
+System Summary
+-------------------------------------------------------
+OS Name                    Microsoft Windows 11 Pro
+Version                    10.0.26100 Build 26100
+System Name                DESKTOP-SAMPLE
+System Manufacturer        Gigabyte Technology
+System Model               B650 AORUS ELITE AX
+
+Problem Devices
+-------------------------------------------------------
+PCI Device
+Error Code: 28
+Status: Drivers for this device are not installed.
+
+Audio Device
+Warning: Device initialization delayed.
+
+Components > Storage
+-------------------------------------------------------
+Samsung 990 PRO 2TB
+Status: OK
+
+Generic SATA SSD
+Status: Warning
+SMART Monitoring Event Detected
+
+Components > Network
+-------------------------------------------------------
+Intel Ethernet Controller
+Status: OK
+
+Wi-Fi Adapter
+Status: Warning
+Connection instability detected.
+
+Software Environment > Windows Error Reporting
+-------------------------------------------------------
+Application Crash
+Application Name: explorer.exe
+Faulting Module Name: kernel32.dll
+
+Application Crash
+Application Name: sample_game.exe
+Faulting Module Name: nvwgf2umx.dll
+
+Software Environment > Loaded Modules
+-------------------------------------------------------
+kernel32.dll
+user32.dll
+ntdll.dll
+dxgi.dll
+
+Software Environment > Event Log
+-------------------------------------------------------
+Event ID: 1000
+Level: Error
+Application Error
+
+Event ID: 7023
+Level: Warning
+Service Control Manager
+
+Event ID: 41
+Level: Critical
+Kernel-Power
+
+Bug Check Information
+-------------------------------------------------------
+Bug Check Code: 0x0000007E
+SYSTEM_THREAD_EXCEPTION_NOT_HANDLED
+
+Referenced Module:
+ntoskrnl.exe
+
+Storage Warning:
+Disk response time exceeded threshold.
+
+Performance Warning:
+High memory consumption detected.
+
+Network Warning:
+Packet loss detected on active adapter.

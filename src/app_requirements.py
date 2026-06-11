@@ -2,7 +2,7 @@ import shutil
 from subprocess import CalledProcessError
 import requests
 import subprocess
-from src import common
+import common
 from tkinter import messagebox
 import os
 

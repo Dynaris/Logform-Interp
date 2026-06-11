@@ -1,6 +1,6 @@
 import os
 import re
-from src import common
+import common
 
 #engine core mechanics (validate file selection and return feedback to user based on selection)
 def validate_input_path(path):

@@ -1,0 +1,32 @@
+Host Name:                 DESKTOP-SAMPLE
+OS Name:                   Microsoft Windows 11 Pro
+OS Version:                10.0.26100 Build 26100
+System Manufacturer:       Gigabyte Technology Co., Ltd.
+System Model:              B650 AORUS ELITE AX
+System Type:               x64-based PC
+Processor(s):              AMD Ryzen 7 7800X3D
+
+Hotfix(s):                 7 Installed
+
+Network Card(s):
+    NVIDIA nForce Networking Controller
+    Status: Warning - Driver reported intermittent connectivity.
+
+Storage Devices:
+    Samsung 990 PRO 2TB
+    Status: Healthy
+
+    Generic SATA SSD
+    Status: Warning - SMART threshold exceeded.
+
+Problem Devices:
+    PCI Device
+    Error Code 28
+    Driver not installed.
+
+Windows Defender:
+    Status: Enabled
+
+Recent Events:
+    Warning: Low virtual memory condition detected.
+    Error: Service startup failed for SampleService.

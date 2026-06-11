@@ -1,0 +1,38 @@
+------------------
+System Information
+------------------
+Time of this report: 06/15/2025, 18:42:13
+Machine Name: DESKTOP-SAMPLE
+Operating System: Windows 11 Pro 64-bit
+System Manufacturer: Gigabyte Technology Co., Ltd.
+System Model: B650 AORUS ELITE AX
+BIOS: F22
+Processor: AMD Ryzen 7 7800X3D
+Memory: 32768MB RAM
+DirectX Version: DirectX 12
+
+---------------
+Display Devices
+---------------
+Card name: NVIDIA GeForce RTX 4070
+Driver Version: 552.22
+Driver Date/Size: 05/10/2025
+
+---------------
+DxDiag Notes
+---------------
+Display Tab 1: No problems found.
+
+Warning: Display driver timeout detected and recovered successfully.
+Warning: Application experienced graphics device reset.
+
+---------------
+Diagnostics
+---------------
+Error: Application crash detected.
+Faulting Application: gameclient.exe
+
+Faulting Module: nvwgf2umx.dll
+Exception Code: 0xc0000005
+
+Direct3D initialization completed with warnings.
