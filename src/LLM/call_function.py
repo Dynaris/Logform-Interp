@@ -1,21 +1,15 @@
-from functions.get_files_info import get_files_info_schema, get_files_info
-from functions.get_file_content import get_file_content_schema, get_file_content
-from functions.run_python_file import run_python_file_schema, run_python_file
-from functions.write_file import write_file_schema, write_file
+from LLM.functions.get_files_info import get_files_info_schema, get_files_info
+from LLM.functions.get_file_content import get_file_content_schema, get_file_content
 
 #AI Agent available tooling
 tool_mapping = {
     "get_files_info": get_files_info,
     "get_file_content": get_file_content,
-    "run_python_file": run_python_file,
-    "write_file": write_file
 }
 
 tools = [
     get_files_info_schema,
     get_file_content_schema,
-    run_python_file_schema,
-    write_file_schema
 ]
 
 #Calling functions configuration

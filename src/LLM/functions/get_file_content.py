@@ -1,5 +1,5 @@
 import os
-from config import MAX_CHARS
+from LLM.config import MAX_CHARS
 
 get_file_content_schema = {
       "type": "function",

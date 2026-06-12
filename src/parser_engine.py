@@ -1,6 +1,8 @@
 import os
 import re
 import common
+import requests
+from LLM.llm_core import generate
 
 #engine core mechanics (validate file selection and return feedback to user based on selection)
 def validate_input_path(path):
@@ -61,7 +63,7 @@ def parse_file(path, extension):
     #.NFO (convert to text) - This removes any possible existent incompatibilities due to OS versions - NOT TO BE INCLUDED IN DEMO
     #.DMP (binary) - NOT TO BE INCLUDED IN DEMO
 
-def decoded_text_validation(text_content): #check for a ratio of printable characters, check for line breaks, return boolean as a result and an error if Invalid
+def decoded_text_validation(text_content):
     """
     When taking in a document, independent of the extension and encoder chosen, the file may still open, despite all of its contents not be readable.
     This is a false-positive that can take place, and needs measures of evaluation to address (i.e. requirements).
@@ -84,7 +86,7 @@ def decoded_text_validation(text_content): #check for a ratio of printable chara
     bad_char_count = 0
     line_break_count = text_content.count("\n")
 
-    #check character limit
+    #check if character count limit is less than or equal to 50
     common.log_message("Checking file character limit... ")
     total_characters = len(text_content)
     print(f"The total character count found is: {total_characters}.") #Debug
@@ -98,6 +100,7 @@ def decoded_text_validation(text_content): #check for a ratio of printable chara
         if not (char.isprintable() or char in special_chars):
             bad_char_count +=1
 
+    #bad character ratio
     char_ratio = bad_char_count / len(text_content)
     print(f"The percentage of bad characters is: {char_ratio}. ") #Debug
     if char_ratio >= 0.3:
@@ -158,6 +161,7 @@ def keyword_id(text_content):
 
     #Keyword hunting logic - all case has been set to lowercase by text_lower variable, to avoid case-sensitive errors
     for line_number, line in enumerate(lines, start=1):
+        #make all text lowercase to avoid errors
         line_lower = line.lower()
         for category, keywords in keyword_dictionary.items():
             #Default all keyword searching to partial.
@@ -184,13 +188,14 @@ def keyword_id(text_content):
         if entries:
             filtered_output[cat] = entries
 
-    common.log_message(f"The following errors were found: {filtered_output}")
+    # This can later be removed, so the user does not see all the errors unformatted until we have an end result.
+    common.log_message(f"The following errors were found: {filtered_output}") 
     print(filtered_output) #Debug
 
     context = llm_context_builder(filtered_output)
     print(context)
 
-    #Check if User has Python and OpenAI dependencies locally installed
+    #Check if User has Python and LLM dependencies locally installed
     #Create function here
 
 def llm_context_builder(filtered_output):
@@ -205,7 +210,9 @@ def llm_context_builder(filtered_output):
         for entry in contents:
             keyword_list.append(f"Line {entry['line_number']}: {entry['contents']}")
 
-    #Final input for the LLM
-    keyword_list.append("\nPlease analyze and summarize these results.")
+    context_for_llm = "\n".join(keyword_list)
 
-    return "\n".join(keyword_list)
+    #Final input for the LLM
+    result = generate(prompt= context_for_llm, verbose=False)
+
+    return result

@@ -2,33 +2,32 @@ import os
 import requests
 import argparse
 import sys
-
-import config
-import sys_prompt
-from call_function import tool_mapping, tools, call_function
+from LLM import config
+from LLM.sys_prompt import system_prompt
+from LLM.call_function import tool_mapping, tools, call_function
 
 # Retrieve the LLM model and respective port chosen by the user, and assign it to the respective variables
 OLLAMA_URL = config.OLLAMA_URL
 OLLAMA_MODEL = config.OLLAMA_MODEL
-
-print("This output is powered by:", config.OLLAMA_MODEL)
 
 #debug print(OLLAMA_URL, OLLAMA_MODEL) 
 
 if OLLAMA_URL == None or OLLAMA_MODEL == None:
     raise RuntimeError("No Ollama URL or Ollama model detected. Cannot proceed.")
 
-messages = []
+def generate(prompt, verbose=False):
 
-#system prompt
-messages.append({"role": "system", "content": sys_prompt})
+    messages = [
+                    {"role": "system",
+                    "content": system_prompt},
+                    {"role": "user",
+                    "content": prompt},
+                    ]
 
-def generate(prompt, messages, verbose=False):
+    #safeguard for tool iterations, to avoid infinite investigations
+    max_tool_iterations = 20
 
-    #user input
-    messages.append({"role": "user", "content": prompt})
-
-    for _ in range(20):
+    for _ in range(max_tool_iterations):
         response = requests.post(OLLAMA_URL, json={
                 "model": OLLAMA_MODEL,
                 "messages": messages,
@@ -84,7 +83,7 @@ def core():
     if not user_input.strip():
         parser.error("Prompt cannot be empty.")
 
-    response = generate(user_input, messages, args.verbose)
+    response = generate(user_input, args.verbose)
 
     if args.verbose:
         print(f'Final response:{response["message"]["content"]}')
