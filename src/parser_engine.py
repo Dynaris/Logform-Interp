@@ -90,8 +90,10 @@ def decoded_text_validation(text_content):
     bad_char_count = 0
     line_break_count = text_content.count("\n")
 
+    common.log_message("Analyzing file...")
+
     #check if character count limit is less than or equal to 50
-    common.log_message("Checking file character limit... ")
+    print("Checking file character limit... ")
     total_characters = len(text_content)
     print(f"The total character count found is: {total_characters}.") #Debug
     if total_characters <= 50:
@@ -99,7 +101,7 @@ def decoded_text_validation(text_content):
         return False
 
     #check for printable characters (readability) (i.e. "NULL", "\x00", etc)
-    common.log_message("Checking file character validity... ")
+    print("Checking file character validity... ")
     for char in text_content:
         if not (char.isprintable() or char in special_chars):
             bad_char_count +=1
@@ -112,17 +114,19 @@ def decoded_text_validation(text_content):
         return False
 
     #check for line breaks
-    common.log_message("Checking line break count... ")
+    print("Checking line break count... ")
     print(f"The number of line breaks found, is: {line_break_count}.")
     if line_break_count <= 10:
         common.log_message("File is not valid. ")
         return False
 
     #if all requirements are valid, return True
-    print("True was returned") #Debug
+    print("All file requirements for validity passed.") #Debug
     return True
 
 def keyword_id(text_content):
+
+    print("Cross-checking findings with keyword database.")
 
     text_content_lower = text_content.lower()
     lines = text_content_lower.splitlines()
@@ -206,7 +210,7 @@ def llm_context_builder(filtered_output):
     #List created to convert dictionary into strings, for LLM parsing.
     keyword_list = []
 
-    common.log_message("Some potential errors were found. Their validity is now being analyzed...")
+    common.log_message("Some important details were located in the files...")
     #LLM string setup
     for category, contents  in filtered_output.items():
         keyword_list.append(f"\n=== CATEGORY: {category} ===")
@@ -215,7 +219,11 @@ def llm_context_builder(filtered_output):
 
     context_for_llm = "\n".join(keyword_list)
 
+    common.log_message("Submitting findings to local AI... Depending on your machine and the volume of data, this may take a while...")
     #Final input for the LLM
     result = generate(prompt= context_for_llm, verbose=False)
+
+    common.log_message("AI analysis completed.")
+    common.log_message(f"The AI responds:\n{result}")
 
     return result
