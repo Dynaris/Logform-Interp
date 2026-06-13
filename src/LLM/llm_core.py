@@ -69,7 +69,7 @@ def generate(prompt, verbose=False):
         print(f"Maximum number of iterations reached. The model did not produce a final response.")
         sys.exit(1)
 
-    return data
+    return data["message"]["content"]
 
 # This needs further work, due to GUI usage.
 def core():
