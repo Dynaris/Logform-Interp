@@ -3,9 +3,12 @@ import re
 import common
 import requests
 from LLM.llm_core import generate
+import threading
+
 
 #engine core mechanics (validate file selection and return feedback to user based on selection)
 def validate_input_path(path):
+
     allowed_extensions = {".txt", ".log", ".dmp", ".nfo"}  # List of accepted file extensions
 
     if not os.path.exists(path): #Check if a path exists
@@ -24,7 +27,7 @@ def validate_input_path(path):
             return parsed
         else:
             return common.log_message("Error: File extension from selected file is not valid. ")
-
+        
 # engine core mechanics (parsing files after validation)
 def parse_file(path, extension):
     print("Parse file command has been reached.") #Debug
@@ -36,6 +39,7 @@ def parse_file(path, extension):
 
     # .TXT, .LOG, .CEF3 (text)
     print("Detect encoding needed.") #Debug
+
     for encoding in encodings_list:
         try:
             if extension in text_based_ext:
@@ -124,7 +128,7 @@ def keyword_id(text_content):
     lines = text_content_lower.splitlines()
 
     #Keyword dictionary last update date: 15-Oct-25
-    #Works as a temporary database of keywords, when parsing through attached files.
+    #Works as a temporary database of keywords, when parsing through attached files. Future link to SQL database instead.
     keyword_dictionary = {
         "Errors": {"error", "failed", "fail", "failure", "fatal", "exception", "critical","crash", "abort", "terminate", "stacktrace", "traceback", "panic", "bugcheck", "core dump", "segfault", "access violation"},
         "Warnings": {"warning", "slow", "timeout", "lag", "retry", "deprecated", "unstable","overload", "bottleneck", "delayed", "throttled", "resource limit"},
@@ -189,7 +193,6 @@ def keyword_id(text_content):
             filtered_output[cat] = entries
 
     # This can later be removed, so the user does not see all the errors unformatted until we have an end result.
-    common.log_message(f"The following errors were found: {filtered_output}") 
     print(filtered_output) #Debug
 
     context = llm_context_builder(filtered_output)
@@ -203,9 +206,9 @@ def llm_context_builder(filtered_output):
     #List created to convert dictionary into strings, for LLM parsing.
     keyword_list = []
 
+    common.log_message("Some potential errors were found. Their validity is now being analyzed...")
     #LLM string setup
     for category, contents  in filtered_output.items():
-        common.log_message("Some potential errors were found. Their validity is now being analyzed...")
         keyword_list.append(f"\n=== CATEGORY: {category} ===")
         for entry in contents:
             keyword_list.append(f"Line {entry['line_number']}: {entry['contents']}")

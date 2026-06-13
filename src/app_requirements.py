@@ -7,7 +7,6 @@ from tkinter import messagebox
 import os
 from LLM import config
 
-
 #TLDR:
 #The purpose of this file, is to check if the user meets the needed requirements for the tool (installation, execution) prior to parsing any files.
 
