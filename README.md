@@ -18,7 +18,7 @@ Currently, the public demo supports `.log` and `.txt` files. For best results, u
 
 ![Logform Interp Demo](src/video_demo/GIF_demonstration.gif)
 
-Full video [here](https://github.com/user-attachments/assets/a61ae1e8-9f8a-414c-be84-da6f9a7de441).
+Full video [here](https://github.com/user-attachments/assets/a61ae1e8-9f8a-414c-be84-da6f9a7de441) or in `src/video_demo`.
 
 
 ## Installation
