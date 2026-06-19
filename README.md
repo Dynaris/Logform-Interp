@@ -23,17 +23,22 @@ Full video [here](https://github.com/user-attachments/assets/a61ae1e8-9f8a-414c-
 
 ## Installation
 
-Install Ollama:
-- Follow the installation instructions for Ollama [by clicking here](https://ollama.com/download);
-- Download preferred model:
-```bash
-ollama pull [full model name]
-```
-- Example:
-```bash
-ollama pull qwen2.5:14b
-```
-- Open `src/LLM/config.py` and configure `OLLAMA_MODEL`.
+Download your preferred Ollama model:
+
+1. Follow the installation instructions for Ollama [by clicking here](https://o2llama.com/download);
+2. Download preferred model: 
+
+    - If using **Linux**:
+    ```bash
+    ollama pull [full model name]
+    ```
+    - Example:
+    ```bash
+    ollama pull qwen2.5:14b
+    ```
+    - If using **Windows**, follow the installation path provided by the executable.
+
+3. Open `src/LLM/config.py` and configure `OLLAMA_MODEL`.
 
 Clone the repository:
 
@@ -49,14 +54,14 @@ python3 -m venv .venv
 ```
 
 - Linux/macOS:
-```bash
-source .venv/bin/activate
-```
+    ```bash
+    source .venv/bin/activate
+    ```
 
 - Windows:
-```bash
-.venv\Scripts\activate
-```
+    ```bash
+    .venv\Scripts\activate
+    ```
 
 Install dependencies:
 ```bash
