@@ -6,6 +6,8 @@ The application identifies potentially relevant log entries, submits the finding
 
 Currently, the public demo supports `.log` and `.txt` files. For best results, use a model with at least 14 billion parameters, such as `qwen2.5:14b`.
 
+The public demo currently only supports localhost port `11434`, unless manually edited via the files, which is not explicit in this description.
+
 ## Disclaimer
 
 - This software is provided for personal and educational use only. The author assumes no responsibility or liability for any loss or damage resulting from the use of the information provided by this tool.
@@ -23,10 +25,8 @@ Full video [here](https://github.com/user-attachments/assets/a61ae1e8-9f8a-414c-
 
 ## Installation
 
-Download your preferred Ollama model:
-
-1. Follow the installation instructions for Ollama [by clicking here](https://o2llama.com/download);
-2. Download preferred model: 
+1. Follow the installation instructions for Ollama [by clicking here](https://ollama.com/download);
+2. Download preferred model ([click here for the list](https://ollama.com/search)): 
 
     - If using **Linux**:
     ```bash
@@ -40,35 +40,49 @@ Download your preferred Ollama model:
 
 3. Open `src/LLM/config.py` and configure `OLLAMA_MODEL`.
 
-Clone the repository:
-
-```bash
-git clone https://github.com/Dynaris/Logform-Interp.git
-cd logform-interp
-```
-
-Create a virtual environment:
-
-```bash
-python3 -m venv .venv
-```
-
-- Linux/macOS:
+4. Clone, and open the repository:
+    
     ```bash
-    source .venv/bin/activate
+    git clone https://github.com/Dynaris/Logform-Interp
+    cd Logform_Interp
     ```
 
-- Windows:
-    ```bash
-    .venv\Scripts\activate
-    ```
+5. Create a virtual environment:
 
-Install dependencies:
-```bash
-pip install -r requirements.txt
-```
+    - Python:
+        ```bash
+        python3 -m venv .venv --upgrade-deps
+        ```
+    - UV:
+        ```bash
+        uv venv .venv
+        ```
+
+6. Activate the environment:
+    - Linux/macOS:
+        ```bash
+        source .venv/bin/activate
+        ```
+
+    - Windows:
+        ```bash
+        .venv\Scripts\activate
+        ```
+
+7. Install dependencies:
+
+    - Python:
+        ```bash
+        python -m pip install -r requirements.txt
+        ```
+    - UV:
+        ```bash
+        uv pip install -r requirements.txt
+        ```
 
 ## Usage/Examples
+
+Ensure you are within the `src` directory to be able to run `main.py`.
 
 ```bash
 python main.py
